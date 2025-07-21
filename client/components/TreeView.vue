@@ -56,6 +56,8 @@ const normalizedTree = computed(() => {
 
     return buildNodes(props.citizens)
 })
+
+console.log('normalizedTree = ', normalizedTree)
 </script>
 
 

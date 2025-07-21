@@ -3,7 +3,7 @@
     <v-container>
       <TabPanel @open-add-dialog="dialog = true" />
 
-      <TreeView :citizens="citizens" :hierarchy="selectedHierarchy" />
+      <TreeView :citizens="citizens" />
 
       <AddCitizenDialog v-model="dialog" @submitted="handleAddCitizen" />
     </v-container>
@@ -13,18 +13,13 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
+import { useFetch } from 'nuxt/app'
 import TabPanel from '@/components/TabPanel.vue'
 import TreeView from '@/components/TreeView.vue'
 import AddCitizenDialog from '@/components/AddCitizenDialog.vue'
 
 const citizens = ref([])
 const dialog = ref(false)
-const hierarchyOptions = [
-  ['city', 'district', 'street'],
-  ['country', 'city', 'street'],
-  ['city', 'street']
-]
-const selectedHierarchy = ref(hierarchyOptions[0])
 
 const fetchCitizens = async () => {
   try {
@@ -32,18 +27,18 @@ const fetchCitizens = async () => {
       baseURL: 'http://localhost:4000'
     })
 
-    // Двойная проверка данных
-    const rawData = JSON.parse(JSON.stringify(data.value))
-    console.log('Raw data from API:', rawData)
+    console.log('DATA from API:', data)
 
-    if (!rawData || typeof rawData !== 'object') {
+    if (!data.value || typeof data.value !== 'object') {
       throw new Error('Invalid data format')
     }
 
-    citizens.value = rawData
-  } catch (error) {
+    citizens.value = data.value
+  }
+
+  catch (error) {
     console.error('Error fetching data:', error)
-    citizens.value = {}
+    citizens.value = []
   }
 }
 

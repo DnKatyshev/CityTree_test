@@ -56,7 +56,7 @@ class DataService {
         street?: string;
         house?: string;
     }) {
-        const { name, country, city, district, street, house } = data;
+        const { name } = data;
 
         if (!name) throw new Error("Name is required");
 
